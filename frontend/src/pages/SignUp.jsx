@@ -15,11 +15,11 @@ const SignUp = () => {
     }
     console.log(formData);
     axios.post(`http://localhost:8000/auth/student/register`,formData)
-}
+ }
 
 
   return (
-        // user && user.token ?  navigate(`/${user.type}/chat`) :
+        // user && user.token ?  navigate(`/home`) :
         <div className="container">
             <h1>Sign Up</h1>
             <form id="formElement">

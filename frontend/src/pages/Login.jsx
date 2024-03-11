@@ -7,8 +7,6 @@ import { Toaster,toast } from 'react-hot-toast'
 const Login = () => {
 
     const {user,SetUser}=useContext(userContext)
-    const [loading,setLoading]=useState(false)
-    const [studentDetails,setStudentDetails]=useState()
     const navigate=useNavigate();
 
     function handleSubmit(e){
@@ -22,25 +20,11 @@ const Login = () => {
         }
         console.log(formData);
 
-        setLoading(true)
         axios.post(`http://localhost:8000/auth/student/login`,formData)
-        .then((res)=>{
-            console.log(res,"called login")
-            setLoading(false)
-            // const finalData={...res.data.data,type:student}
-            // SetUser(finalData);
-            console.log(user?.token,"my token")
-        })
-        .catch((err)=>{
-            setLoading(false)
-            toast.error(err.response.data.message)
-            console.log(err);
-        })
     }
 
   return (
-   user && user.token ?  navigate(`/${user.type}/chat`) :
-        <div className="container">
+        <div className="container ">
             <h1>Login</h1>
             <form id="formElement">
                 <input 

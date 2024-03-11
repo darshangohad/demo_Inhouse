@@ -5,16 +5,17 @@
 }
 body{
   height: 100vh;
-  background: #ffffff;
+  background:#4070f4;
 }
 .container{
   margin: 50px auto;
   padding: 2rem 1rem;
   width: 390px;
   border-radius: 10px;
-  background-color: #1f51ff;
+  background-color: white;
   text-align: center;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+  margin-top: 90px;
 }
 h1{
   margin-bottom: 1.2rem;
@@ -38,8 +39,8 @@ button{
   padding: 10px 0;
   border-radius: 20px;
   outline: none;
-  color: #ffffff;
-  background: rgb(46, 44, 44);
+  color:white;
+  background: #4070f4;
 }
 button:hover{
   color: #1f51ff;
