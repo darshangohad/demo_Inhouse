@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 
-const SignUp = () => {
+const SignUpAdmin = () => {
         
   const navigate=useNavigate();
 
@@ -17,36 +17,21 @@ const SignUp = () => {
     }
     console.log(formData);
 
-    axios.post(`http://localhost:8000/auth/student/register`,formData)
+    axios.post(`http://localhost:8000/auth/admin/register`,formData)
 
     .then(res => {
-        navigate('/');
+        navigate('/adminLogin');
     })
     .catch(err =>{
-            toast.error(err)
             console.log("Error catched ----->>>>>> ", err);
      })
 
  }
 
-
   return (
         <div className="container">
-            <h1>Student Sign Up</h1>
+            <h1>Admin Sign Up</h1>
             <form id="formElement">
-
-                <input 
-                        id="first_name"
-                        name="first_name"
-                        type="text" 
-                        placeholder='First Name' />
-
-                <input 
-                        id="last_name"
-                        name="last_name"
-                        type="text" 
-                        placeholder='Last Name' />
-
                 <input 
                         id="email"
                         name="email"
@@ -63,10 +48,10 @@ const SignUp = () => {
                     Sign Up
             </button>
             <div className="member">
-                Already have an account? <Link to='/'>Login</Link>
+                Already have an account? <Link to='/adminLogin'>Login</Link>
             </div>
         </div>
   )
 }
 
-export default SignUp
+export default SignUpAdmin

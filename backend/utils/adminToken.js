@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
+const pool = require('../models/PictInsights');
 
 const getAdminToken = async (AdminId) => {
     try {

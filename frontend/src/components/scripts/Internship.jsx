@@ -10,6 +10,7 @@ import {
   faSquare,
   faEarth,
   faHeart,
+  faSortDown,
   faLightbulb,
   faThumbsUp,
   faAngleDown,
@@ -52,6 +53,10 @@ export const Internship = () => {
             <Link to={"/home"} className="link">
               <FontAwesomeIcon className="fa-icon" icon={faHouseChimney} />
               <h4 className="text">Home</h4>
+            </Link>
+            <Link to={"/logout"} className="link">
+              <FontAwesomeIcon className="fa-icon" icon={faSortDown} />
+              <h4 className="text">Logout</h4>
             </Link>
           </div>
         </div>
@@ -164,6 +169,7 @@ const NavbarIcons = (props) => {
     </div>
   );
 };
+
 
 function UserPosts(props) {
   return (

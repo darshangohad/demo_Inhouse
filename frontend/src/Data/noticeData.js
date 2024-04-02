@@ -15,8 +15,6 @@ export const Posts_Data = [
     name: "Notice 1",
     about_avatar:
       "Description about the notice",
-    avatar:
-      "../img/profile.jpeg",
     about_post:
       "🚨 Announcement 🚨  About Post ",
     time: "3w",

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS students (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
     roll_no INT,
     reg_no VARCHAR(255),
     batch_year INT ,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS student_token (
 
 CREATE TABLE IF NOT EXISTS admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255),
+    email VARCHAR(255),
     password VARCHAR(255) NOT NULL
 );
 
@@ -40,32 +40,35 @@ CREATE TABLE IF NOT EXISTS admin_token (
     CONSTRAINT fk_admin FOREIGN KEY (fk_admin) REFERENCES admins(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS college_events (
-    event_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS college_notice (
+    notice_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     content TEXT,
-    author VARCHAR(50),
+    notice_admin INT NOT NULL,
     event_date DATETIME,
     image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT notice_admin FOREIGN KEY (notice_admin) REFERENCES admins(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS college_placement_blog (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     content TEXT,
-    author VARCHAR(50),
+    placement_admin INT NOT NULL,
     image_url VARCHAR(255),
-    posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT placement_admin FOREIGN KEY (placement_admin) REFERENCES admins(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS college_internship_blog (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     content TEXT,
-    author VARCHAR(50),
+    intern_admin INT NOT NULL,
     image_url VARCHAR(255),
-    posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT intern_admin FOREIGN KEY (intern_admin) REFERENCES admins(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

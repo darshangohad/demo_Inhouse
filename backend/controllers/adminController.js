@@ -65,7 +65,7 @@ const login = async(req, res) => {
     if (auth) {
         const token = await getAdminToken(isExistQueryData[0][0].id);
         const admin = isExistQueryData;
-        delete student.password;
+        
         res.status(200).json({
             error: false,
             message: "Admin Login Successful.",
@@ -86,8 +86,10 @@ const login = async(req, res) => {
 const logout = async (req, res) => {
     try {
         const token = req.token;
-        const query = `DELETE from admin_token WHERE token = $1`;
-        const queryParams = [token];
+        const adminId = req.admin.id;
+
+        const query = `DELETE from admin_token WHERE adminId = ?`;
+        const queryParams = [adminId];
         const queryData = await pool.query(query, queryParams);
 
         res.status(200).json({ error: false, message: "Logout Successfull." });

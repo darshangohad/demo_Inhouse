@@ -67,6 +67,7 @@ const login = async(req, res) => {
         const token = await getStudentToken(isExistQueryData[0][0].id);
         const student = isExistQueryData;
         delete student.password;
+        console.log(token);
         res.status(200).json({
             error: false,
             message: "Student Login Successful.",
@@ -84,19 +85,21 @@ const login = async(req, res) => {
     }
 }
 
-const logout = (req, res) => {
-    // try {
-    //     const token = req.token;
-    //     console.log(token);
-    //     const query = `DELETE from student_token WHERE token = ?`;
-    //     const queryParams = [token];
-    //     const queryData = await pool.query(query, queryParams);
+const logout = async (req, res) => {
+    try {
+        const token = req.token;
+        const studeId = req.student.id;
+        
+        const query = `DELETE from student_token WHERE fk_student = ?`;
+        const queryParams = [studeId];
+        const queryData = await pool.query(query, queryParams);
 
-    //     res.status(200).json({ error: false, message: "Logout Successfull." });
-    // } catch (err) {
-    //     console.log(err);
-    //     res.status(500).json({ error: true, message: "Internal server error!" });
-    // }
+        // console.log(queryData);
+        res.status(200).json({ error: false, message: "Logout Successfull." });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: true, message: "Internal server error!" });
+    }
 };
 
 

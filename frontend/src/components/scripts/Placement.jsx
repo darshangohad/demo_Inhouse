@@ -13,6 +13,7 @@ import {
   faLightbulb,
   faThumbsUp,
   faAngleDown,
+  faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { NAVBAR_ICONS, Posts_Data, WHO_TO_CONNECT } from "../../Data/placementsData";
@@ -52,6 +53,10 @@ export const Placement = () => {
             <Link to={"/home"} className="link">
               <FontAwesomeIcon className="fa-icon" icon={faHouseChimney} />
               <h4 className="text">Home</h4>
+            </Link>
+            <Link to={"/logout"} className="link">
+              <FontAwesomeIcon className="fa-icon" icon={faSortDown} />
+              <h4 className="text">Logout</h4>
             </Link>
           </div>
         </div>

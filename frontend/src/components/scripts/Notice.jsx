@@ -13,6 +13,7 @@ import {
   faLightbulb,
   faThumbsUp,
   faAngleDown,
+  faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { NAVBAR_ICONS, Posts_Data, WHO_TO_CONNECT } from "../../Data/noticeData";
@@ -20,8 +21,7 @@ import { NAVBAR_ICONS, Posts_Data, WHO_TO_CONNECT } from "../../Data/noticeData"
 export const Notice = () => {
   return (
     <>
-
-<nav>
+      <nav>
         <div className="navContainer" >
           <div className="navLeftSide">
             <div className="logo">
@@ -54,12 +54,13 @@ export const Notice = () => {
               <FontAwesomeIcon className="fa-icon" icon={faHouseChimney} />
               <h4 className="text">Home</h4>
             </Link>
+            <Link to={"/logout"} className="link">
+              <FontAwesomeIcon className="fa-icon" icon={faSortDown} />
+              <h4 className="text">Logout</h4>
+            </Link>
           </div>
         </div>
       </nav>
-
-
-    
 
 
       <div className="main">
@@ -76,23 +77,15 @@ export const Notice = () => {
                 <p className="avatarAbout">
                   Description of Student / Bio / Graduate Year / Skills
                 </p>
-                
-                <div className="hr"></div>
-                <div className="items">
-                  <h4>
-                    <FontAwesomeIcon className="bookmark" icon={faBookmark} />
-                    My items
-                  </h4>
-                </div>
               </div>
             </div>
             
           </div>
           <div className="middleSide">
+
             {Posts_Data.map((el, i) => (
               <UserPosts
                 key={i}
-                avatar={el.avatar}
                 name={el.name}
                 about_avatar={el.about_avatar}
                 about_post={el.about_post}
@@ -102,6 +95,7 @@ export const Notice = () => {
                 icons={el.icons}
               />
             ))}
+
           </div>
           <div className="rightSide">
             <div className="rightContainer">
@@ -122,37 +116,6 @@ export const Notice = () => {
                 </h4>
               </div>
             </div>
-            <footer className="footer">
-              <div>
-                <span>About</span>
-                <span>Accessibility</span>
-                <span>Help Center</span>
-              </div>
-              <div>
-                <span>
-                  Privacy & Terms{" "}
-                  {<FontAwesomeIcon className="downArrow" icon={faAngleDown} />}
-                </span>
-                <span>Ad Choices</span>
-              </div>
-              <div>
-                <span>Advertising </span>
-                <span>
-                  Business Services{" "}
-                  {<FontAwesomeIcon className="downArrow" icon={faAngleDown} />}
-                </span>
-              </div>
-              <div>
-                <span>Get the LinkedIn app</span>
-                <span>More</span>
-              </div>
-              <div className="corporation">
-                <span className="linked">
-                  Linked <span className="in">in</span>
-                </span>
-                <span>LinkedIn corporation © 2022</span>
-              </div>
-            </footer>
           </div>
         </div>
       </div>
