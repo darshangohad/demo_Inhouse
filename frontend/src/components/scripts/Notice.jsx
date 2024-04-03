@@ -1,24 +1,65 @@
+import axios from "axios"
+import React, { useState, useEffect } from 'react';
 import "../styles/Notice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBookmark,
   faBell,
   faCommentDots,
   faGraduationCap,
   faHouseChimney,
   faToolbox,
-  faSquare,
   faEarth,
-  faHeart,
-  faLightbulb,
-  faThumbsUp,
   faAngleDown,
   faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { NAVBAR_ICONS, Posts_Data, WHO_TO_CONNECT } from "../../Data/noticeData";
+import { WHO_TO_CONNECT } from "../../Data/studentToConnect";
+
+export const Notice_Data = [];
 
 export const Notice = () => {
+
+  const divStyle = {
+    textAlign: 'center',
+    height: '300px',
+    lineHeight: '300px',
+  }; // to be remove later divstyle
+
+  const [noticeData, setNoticeData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get('http://localhost:8000/auth/student/getNotice', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        setNoticeData(res.data);
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, []);
+
+  if (!noticeData) {
+    return <div style={divStyle}>Loading....</div>;
+  }
+
+  const updatedNoticeData = noticeData.map(notice => ({
+    notice_id: notice.id, // Adjust the key based on your API response
+    title: notice.title,
+    content: notice.content,
+    notice_admin: notice.notice_admin,
+    event_date: notice.event_date,
+    image_url: notice.image_url,
+    created_at: notice.created_at
+  }));
+
+  Notice_Data.splice(0, Notice_Data.length, ...updatedNoticeData);
+
   return (
     <>
       <nav>
@@ -62,7 +103,6 @@ export const Notice = () => {
         </div>
       </nav>
 
-
       <div className="main">
         <div className="homeContainer">
           <div className="leftSide">
@@ -83,16 +123,14 @@ export const Notice = () => {
           </div>
           <div className="middleSide">
 
-            {Posts_Data.map((el, i) => (
+            {Notice_Data.map((el, i) => (
               <UserPosts
                 key={i}
-                name={el.name}
-                about_avatar={el.about_avatar}
-                about_post={el.about_post}
-                post_picture={el.post_picture}
-                time={el.time}
-                likes={el.likes}
-                icons={el.icons}
+                title={el.title}
+                content={el.content}
+                event_date={el.event_date}
+                image_url={el.image_url}
+                created_at={el.created_at}
               />
             ))}
 
@@ -123,64 +161,27 @@ export const Notice = () => {
   );
 };
 
-const NavbarIcons = (props) => {
-  return (
-    <div className="btnicon">
-      <span>{props.icon}</span>
-      <span className="icontext">{props.text}</span>
-    </div>
-  );
-};
-
 function UserPosts(props) {
   return (
     <div className="postsMainDiv">
       <div className="useDetails">
         <div className="avatarDetails">
-          <img className="userAvatar" src={props.avatar} alt="" />
           <div>
-            <h4>{props.name}</h4>
-            <p>{props.about_avatar}</p>
+            <h4>{props.title}</h4>
+            <p>{props.content}</p>
             <div className="postime">
-              <p>{props.time}</p>
+              <p>{props.created_at}</p>
               <div className="dot"></div>
               <FontAwesomeIcon className="earthIcon" icon={faEarth} />
             </div>
           </div>
         </div>
-        <div className="followbtn">
-          <p>+</p>
-          <h5>Follow</h5>
-        </div>
       </div>
       <div className="aboutPost">
-        <p>{props.about_post}</p>
+        <p>{props.content}</p>
       </div>
       <div className="postPicture">
-        <img src={props.post_picture} alt="" />
-      </div>
-      <div className="likes">
-        <div className="likeIcon">
-          <div>
-            <FontAwesomeIcon icon={faThumbsUp} />
-          </div>
-          <div className="lightIcon">
-            <FontAwesomeIcon icon={faLightbulb} />
-          </div>
-          <div className="lightIcon">
-            <FontAwesomeIcon icon={faHeart} />
-          </div>
-        </div>
-        <p>{props.likes}</p>
-      </div>
-      <div className="hr"></div>
-      <div className="viewerReactionMain">
-        {props.icons.map((e, i) => (
-          <div key={i} className="viewerReaction">
-            <h5>{e.icon}</h5>
-            <p>{e.text}</p>
-          </div>
-        ))}
+        <img src={props.image_url} alt="" />
       </div>
     </div>
   );

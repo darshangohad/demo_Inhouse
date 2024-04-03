@@ -10,15 +10,15 @@ const uploadInternshipPost = async (req, res) =>{
         const tokenQueryData = await pool.query(tokenQuery, tokenQueryParams);
 
         const adminID = tokenQueryData[0][0].fk_admin;
-        
+
         const file = req.file;
         const destination = file.destination;
         const newDestination = destination.replace("../frontend/public", "..");
         const path = newDestination + '/' + file.filename;
 
-        const {title, description, eventDate} = req.body;
+        const {title, description} = req.body;
 
-        const noticeQuery = `INSERT INTO college_internship_blog (title, content, placement_admin, image_url) VALUES (?, ?, ?, ?)`;
+        const noticeQuery = `INSERT INTO college_internship_blog (title, content, intern_admin, image_url) VALUES (?, ?, ?, ?)`;
         const noticeQueryParams = [title, description, adminID, path];
         const noticeQueryData = await pool.query(noticeQuery, noticeQueryParams);
     }

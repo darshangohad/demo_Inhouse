@@ -16,7 +16,7 @@ const uploadPlacementPost = async (req, res) =>{
         const newDestination = destination.replace("../frontend/public", "..");
         const path = newDestination + '/' + file.filename;
 
-        const {title, description, eventDate} = req.body;
+        const {title, description} = req.body;
 
         const noticeQuery = `INSERT INTO college_placement_blog (title, content, placement_admin, image_url) VALUES (?, ?, ?, ?)`;
         const noticeQueryParams = [title, description, adminID, path];

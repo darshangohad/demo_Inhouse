@@ -7,6 +7,10 @@ const Adminrouter = require('./routes/AdminRoutes');
 const HomePageStudentRouter = require('./routes/StudentHomePageRouter');
 const studentProfileUpload = require('./routes/StudentProfileImageRoutes')
 
+const getNoticeData = require('./routes/DataNoticeRoutes')
+const getInternshipData = require('./routes/DataInternshipRoutes')
+const getPlacementData = require('./routes/DataPlacementRouter')
+
 const NoticePostRoutes = require('./routes/AdminNoticeUploadRoutes');
 const PlacementPostRoutes = require('./routes/AdminPlacementUploadRoutes');
 const InternshipPostRoutes = require('./routes/AdminInternshipRoutes');
@@ -20,6 +24,10 @@ app.use(cors());
 app.use('/auth/student', Studentrouter);
 app.use('/auth/student', HomePageStudentRouter);
 app.use('/auth/student', studentProfileUpload);
+
+app.use('/auth/student', getNoticeData);
+app.use('/auth/student', getInternshipData);
+app.use('/auth/student', getPlacementData);
 
 app.use('/auth/admin', Adminrouter);
 app.use('/auth/admin', NoticePostRoutes);

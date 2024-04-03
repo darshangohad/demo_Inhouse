@@ -1,27 +1,68 @@
+import axios from "axios"
+import React, { useState, useEffect } from 'react';
 import "../styles/Internship.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBookmark,
   faBell,
   faCommentDots,
   faGraduationCap,
   faHouseChimney,
   faToolbox,
-  faSquare,
   faEarth,
-  faHeart,
-  faSortDown,
-  faLightbulb,
-  faThumbsUp,
   faAngleDown,
+  faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { NAVBAR_ICONS, Posts_Data, WHO_TO_CONNECT } from "../../Data/internshipData";
+import { WHO_TO_CONNECT } from "../../Data/studentToConnect";
+
+export const InternShip_Data = [];
 
 export const Internship = () => {
+
+  const divStyle = {
+    textAlign: 'center',
+    height: '300px',
+    lineHeight: '300px',
+  }; // to be remove later divstyle
+
+  const [internshipData, setInternshipData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get('http://localhost:8000/auth/student/getInternship', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        setInternshipData(res.data);
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, []);
+
+  if (!internshipData) {
+    return <div style={divStyle}>Loading....</div>;
+  }
+
+  const updatedInternshipeData = internshipData.map(internship => ({
+    post_id: internship.id, // Adjust the key based on your API response
+    title: internship.title,
+    content: internship.content,
+    intern_admin: internship.intern_admin,
+    image_url: internship.image_url,
+    posted_at: internship.posted_at
+  }));
+
+  InternShip_Data.splice(0, InternShip_Data.length, ...updatedInternshipeData);
+
+
   return (
     <>
-    <nav>
+      <nav>
         <div className="navContainer" >
           <div className="navLeftSide">
             <div className="logo">
@@ -62,7 +103,6 @@ export const Internship = () => {
         </div>
       </nav>
 
-
       <div className="main">
         <div className="homeContainer">
           <div className="leftSide">
@@ -77,32 +117,22 @@ export const Internship = () => {
                 <p className="avatarAbout">
                   Description of Student / Bio / Graduate Year / Skills
                 </p>
-                
-                <div className="hr"></div>
-                <div className="items">
-                  <h4>
-                    <FontAwesomeIcon className="bookmark" icon={faBookmark} />
-                    My items
-                  </h4>
-                </div>
               </div>
             </div>
             
           </div>
           <div className="middleSide">
-            {Posts_Data.map((el, i) => (
+
+            {InternShip_Data.map((el, i) => (
               <UserPosts
                 key={i}
-                avatar={el.avatar}
-                name={el.name}
-                about_avatar={el.about_avatar}
-                about_post={el.about_post}
-                post_picture={el.post_picture}
-                time={el.time}
-                likes={el.likes}
-                icons={el.icons}
+                title={el.title}
+                content={el.content}
+                image_url={el.image_url}
+                created_at={el.posted_at}
               />
             ))}
+
           </div>
           <div className="rightSide">
             <div className="rightContainer">
@@ -123,37 +153,6 @@ export const Internship = () => {
                 </h4>
               </div>
             </div>
-            <footer className="footer">
-              <div>
-                <span>About</span>
-                <span>Accessibility</span>
-                <span>Help Center</span>
-              </div>
-              <div>
-                <span>
-                  Privacy & Terms{" "}
-                  {<FontAwesomeIcon className="downArrow" icon={faAngleDown} />}
-                </span>
-                <span>Ad Choices</span>
-              </div>
-              <div>
-                <span>Advertising </span>
-                <span>
-                  Business Services{" "}
-                  {<FontAwesomeIcon className="downArrow" icon={faAngleDown} />}
-                </span>
-              </div>
-              <div>
-                <span>Get the LinkedIn app</span>
-                <span>More</span>
-              </div>
-              <div className="corporation">
-                <span className="linked">
-                  Linked <span className="in">in</span>
-                </span>
-                <span>LinkedIn corporation © 2022</span>
-              </div>
-            </footer>
           </div>
         </div>
       </div>
@@ -161,65 +160,27 @@ export const Internship = () => {
   );
 };
 
-const NavbarIcons = (props) => {
-  return (
-    <div className="btnicon">
-      <span>{props.icon}</span>
-      <span className="icontext">{props.text}</span>
-    </div>
-  );
-};
-
-
 function UserPosts(props) {
   return (
     <div className="postsMainDiv">
       <div className="useDetails">
         <div className="avatarDetails">
-          <img className="userAvatar" src={props.avatar} alt="" />
           <div>
-            <h4>{props.name}</h4>
-            <p>{props.about_avatar}</p>
+            <h4>{props.title}</h4>
+            <p>{props.content}</p>
             <div className="postime">
-              <p>{props.time}</p>
+              <p>{props.posted_at}</p>
               <div className="dot"></div>
               <FontAwesomeIcon className="earthIcon" icon={faEarth} />
             </div>
           </div>
         </div>
-        <div className="followbtn">
-          <p>+</p>
-          <h5>Follow</h5>
-        </div>
       </div>
       <div className="aboutPost">
-        <p>{props.about_post}</p>
+        <p>{props.content}</p>
       </div>
       <div className="postPicture">
-        <img src={props.post_picture} alt="" />
-      </div>
-      <div className="likes">
-        <div className="likeIcon">
-          <div>
-            <FontAwesomeIcon icon={faThumbsUp} />
-          </div>
-          <div className="lightIcon">
-            <FontAwesomeIcon icon={faLightbulb} />
-          </div>
-          <div className="lightIcon">
-            <FontAwesomeIcon icon={faHeart} />
-          </div>
-        </div>
-        <p>{props.likes}</p>
-      </div>
-      <div className="hr"></div>
-      <div className="viewerReactionMain">
-        {props.icons.map((e, i) => (
-          <div key={i} className="viewerReaction">
-            <h5>{e.icon}</h5>
-            <p>{e.text}</p>
-          </div>
-        ))}
+        <img src={props.image_url} alt="" />
       </div>
     </div>
   );

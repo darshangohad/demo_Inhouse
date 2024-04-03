@@ -4,7 +4,6 @@ import axios from 'axios';
 const InternshipForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [eventDate, setEventDate] = useState('');
   const [file, setFile] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -16,17 +15,16 @@ const InternshipForm = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('file', file);
-
     try {
       await axios.post('http://localhost:8000/auth/admin/uploadInternship', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
       });
-      alert('Notice uploaded successfully!');
+      alert('Internship Post uploaded successfully!');
     } catch (error) {
-      console.error('Error uploading notice:', error);
-      alert('Failed to upload notice.');
+      console.error('Error uploading post:', error);
+      alert('Failed to upload post.');
     }
   };
 
